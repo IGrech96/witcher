@@ -1,5 +1,6 @@
 #import "@preview/muchpdf:0.1.0": muchpdf
 #import "../../packages/rpg/rpg.typ": *
+#import "../../packages/witcher_bestiary/default_bestiary.typ"
 
 #show: rpgstory.with(
   title: "",
@@ -32,6 +33,7 @@
 Лорд #key[Новак] использует местного тролля, изгнанного нильфгаардцами, чтобы держать местных в страхе и не допускать бунта. 
 #key[Скальный тролль Вулабаг (и второй троль Мого)] убеждён, что делает доброе дело, похищая непослушных детей и отдавая их лорду #key[Новаку] для наказания. 
 ]
+
 #scene[Эшберг] <echberg>
 #breakoutbox("Завязка")[
 Игроки прибывают в посёлок #key[Эшберг] в #key[Верхнем Аэдирне]. Остановиться на ночь они могут в таверне #key(anchor: "tavern")[«Волчья голова»], где и будет их штаб. Игроки могут обследовать дом, где произошло последнее похищение. Через ночь или две ещё одного ребёнка похищают из особняка местного вельможи, замышлявшего предательство. В итоге игроки находят логово #key(anchor: <nakers_cave>)[Вулабага (и Мого)]. После этого действие переносится в особняк #key(anchor: <lord_novaks_castle>)[лорда Новака], где и держат детей.]
@@ -114,11 +116,8 @@
 
 Разбойники тоже видят Вас и кричат:
 #quote[Убирайтесь! Это наша заслуженная добыча, не зря же мы прогнали тех проклятых карликов!]
-#grid(
-  inset: 5pt,
-  columns: (50%, 50%),
-  [#muchpdf( read("images/robbers.pdf", encoding: none), pages: 1)], [#muchpdf( read("images/robbers.pdf", encoding: none), pages: 0)]
-)
+
+#default_bestiary.robber()
 
 #breakoutbox("Мирное решение")[
   *Встречная проверка Сопротивление убеждению* успокоить или договориться. Если успешно то они рассказывают.
@@ -149,11 +148,7 @@ columns: (10%, 90%),
 
 #breakoutbox("Завязка")[
   Пойти по следу Волочения проверка *Выживания в в дикой природе СЛ 12*, игроки дойдут до тела женщины (кроме характерных ран от Накеров такие же повреждения как и на трупах в доме), а рядом дерутся за него #key[Накеры] *Кол = Кол. игроков + 2* 
-  #grid(
-    inset: 5pt,
-    columns: (50%, 50%),
-    [#muchpdf( read("images/nakers.pdf", encoding: none), pages: 1)], [#muchpdf( read("images/nakers.pdf", encoding: none), pages: 0)]
-  )
+  #default_bestiary.nakers()
 ]
 
 #breakoutbox("Развязка")[
@@ -187,11 +182,7 @@ columns: (10%, 90%),
 
 #scene[Пещера Накеров] <nakers_cave>
  #breakoutbox("Улики")[Проверка *Внимания со СЛ 15*, совершённая у входа в пещеру, позволяет понять, что внутри находятся ещё накеры (*Кол = Кол. игроков + 2*).
- #grid(
-  inset: 5pt,
-  columns: (50%, 50%),
-  [#muchpdf( read("images/nakers.pdf", encoding: none), pages: 1)], [#muchpdf( read("images/nakers.pdf", encoding: none), pages: 0)]
-)
+ #default_bestiary.nakers()
 ]
 
 Пещера явно логово тролля, но здесь нет детских костей. Костей как таковых много, и разложены они так, что формируют странные рисунки или скульптуры в некоторых местах.
@@ -214,11 +205,7 @@ columns: (10%, 90%),
 ]
 *#key[Вулабагу] стыдно, человеки. Давно человеков не видел в пещере. Уберите острые палки. #key[Вулабаг] — хороший тролль! (и Тролль Мого) Наказывает негодников! Негодных человеков Вулабаг бить! Вулабаг делать доброе дело! Так сказал чёрный человек! А #key[Вулабагу] за это дают овец и оленей. #key[Вулабагу] вкусно!!*
 
-#grid(
-  inset: 5pt,
-  columns: (50%, 50%),
-  [#muchpdf( read("images/trolls.pdf", encoding: none), pages: 1)], [#muchpdf( read("images/trolls.pdf", encoding: none), pages: 0)]
-)
+#default_bestiary.trolls()
 #image("images/trolss_weapon.png")
 
 
@@ -232,11 +219,7 @@ columns: (10%, 90%),
 ]
 
 *У стражников статы как у разбойников*
-#grid(
-  inset: 5pt,
-  columns: (50%, 50%),
-  [#muchpdf( read("images/robbers.pdf", encoding: none), pages: 1)], [#muchpdf( read("images/robbers.pdf", encoding: none), pages: 0)]
-)
+#default_bestiary.robber()
 
 
 #scene[Особняк лорда Новака] <lord_novaks_castle>
@@ -325,10 +308,6 @@ columns: (10%, 90%),
 #image("images/koval_tigel.png") <koval>
 #image("images/lord_novak.png") <lord_novak>
 * У стражников статы как у разбойников*
-#grid(
-  inset: 5pt,
-  columns: (50%, 50%),
-  [#muchpdf( read("images/robbers.pdf", encoding: none), pages: 1)], [#muchpdf( read("images/robbers.pdf", encoding: none), pages: 0)]
-)
+#default_bestiary.robber()
 
   
