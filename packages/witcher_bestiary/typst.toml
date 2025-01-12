@@ -1,0 +1,6 @@
+[package] 
+name = "witcher_bestiary"
+version = "0.1.0"
+entrypoint = "witcher_bestiary.typ"
+authors = ["Ivan G"]
+license = "MIT"

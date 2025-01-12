@@ -1,0 +1,6 @@
+[package] 
+name = "rpg"
+version = "0.1.0"
+entrypoint = "rpg.typ"
+authors = ["Ivan G"]
+license = "MIT"
