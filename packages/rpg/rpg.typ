@@ -10,7 +10,7 @@
               cover: none,
               font_size: 12pt,
               paper: none,
-              pageSize: infinityPage,
+              pageSize: none,
               fancy_author: false,
   body) = {
   set document(title: title)
@@ -71,6 +71,10 @@
     subtitle = subtitle + "\n"
   }
   
+  if pageSize == none {
+    pageSize = infinityPage
+  }
+
   // FRONT PAGE
   page(
     margin: (x: 0pt, y: 0pt),
@@ -84,7 +88,7 @@
 
     #place(
       top + center,
-      box(fill: rgb("#00000066"), inset: 10%, text(fill: white, size: 60pt, weight: 800, upper(title)))
+      box(inset: 10%, text(fill: black, size: 50pt,  weight: 800, upper(title), stroke:1pt+ white))
     )
 
     #if subtitle.len() > 0 {
@@ -95,8 +99,17 @@
     ))}
 
     #if fancy_author {
-      place(dx: -10%, dy: 73%, image("images/fire_splash.svg", width: 60%))
-      place(dx: -10% + 0.7cm, dy: 73% + 0.7cm)[#text(size: 18pt, fill: white, weight: 700)[by #author]]
+
+      place(
+        dx: 0cm,
+        dy: -2cm,
+        image("images/fire_splash.svg", width: 60%)
+      )
+      place(
+        dx: 1cm,
+        dy: -1cm,
+        text(size: 18pt, fill: rgb("#fa9e9ecb"), weight: 700)[by #author]
+      )
     }
   ]
   
@@ -109,43 +122,19 @@
   
 }
 
+#import emoji: chain
 #let key(anchor: none, content) = text(fill: blue, size: 1.1em)[
   #if anchor != none [
-    #link(anchor)[#content]
+    #link(anchor)[#text(size: 0.7em)[#chain]#content]
   ] else [
     #content
   ]
 ]
 
+#let optional(content) = text(style: "italic", fill: rgb("#504b4b"))[\u{2E2E}
+#content\u{2E2E}]
 
-// #let dndtab(name, columns: (1fr, 4fr), ..contents) = [
-//   *#smallcaps(text(size: 1.3em)[#name])*
-//   #v(-1em)
-//   #table(
-//   columns: columns,
-//   align: (col, row) =>
-//    if col == 0 { center }
-//     else { left },
-//   fill: (col, row) => if calc.odd(row+1) { rgb("#aaaaaa00") } else { rgb("#aaffaa33") },
-//   inset: 10pt,
-//   stroke: none,
-//   // align: horizon,
-//   ..contents
-//   )
-// ]
-// #let marginset(where) = {
-//    if where == top {
-//      (top: -10pt)
-//    } else {
-//      (bottom: -10pt)
-//    }
-// }
-// #let pagewithfig(where, figure, contents) = [
-//     #set page(columns: 1, margin: marginset(where))  
-//     #pagebreak()
-//     #place(where+center, float: true, figure)
-//     #block[#columns(2)[#contents]]
-// ]
+#let skill_check(name, param, value) = text(fill: red)[🎲 *#name (#param): #value * <skill_check>]
 
 #let breakoutbox(title, contents) = [
   #box(inset: 10pt, width: 100%, stroke: (top: 1pt, bottom: 1pt), fill: rgb("#cee4ce"))[
@@ -158,91 +147,55 @@
 
 #let scene(content) = [== #content]
 #let subscene(content) = [==== #content]
-// #let bonus(i) = {
-//   let b = ""
-//   if i >= 10 {
-//     b = "+"
-//   }
-//   b + str(int((i - 10)/2))
-// }
 
-// #let stat-to-str(a) = {
-//   (str(a) + " (" + bonus(int(a)) + ")")
-// }
+#let todo(content: "") = text(fill: red, size: 1.3em)[
+*Дописать:*
+#if content != none [
+  *#content*
+]
+]
 
-// #let stats-table(stats) = {
-//   let content = ()
-//   for k in stats.keys() {
-//     content.push([#text(fill: darkred, weight: 700, k)])
-//   }
-//   for k in stats.values() {
-//     content.push([#text(fill: black, stat-to-str(k))])
-//   }
-//   table(stroke: none, columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr), inset: 0pt, row-gutter: 5pt, align: center, ..content)
-// }
 
-// #let statbox(stats) = [
-//   #box(inset: 12pt, fill: white, stroke: 1pt, width: 100%)[
-//     #show par: set block(spacing: .6em)
-//     #set text(size: 10pt) 
-//     #heading(outlined: false, level: 3, stats.name)
-    
-//     _ #stats.description _
+#let content_overview() = context {
 
-//     #line(stroke: 2pt + darkred, length: 100%)
-//     #text(fill: darkred)[*Armor Class*] #stats.ac\
-//     #text(fill: darkred)[*Hit Points*] #stats.hp\
-//     #text(fill: darkred)[*Speed*] #stats.speed\
-    
-//     #line(stroke: 2pt + darkred, length: 100%)
-//     #stats-table(stats.stats)
-//     #line(stroke: 2pt + darkred, length: 100%)
+  heading("В этом приключении", outlined: false)
+  let chapters = query(
+    heading.where(outlined: true)
+  )
 
-//     #for skill in stats.skillblock {
-//       [#text(fill: darkred)[*#skill.at(0)*] #skill.at(1)\ ]
-//     }
-//     #line(stroke: 2pt + darkred, length: 100%)
-//     #for trait in stats.traits {
-//       [ _*#trait.at(0).*_ #trait.at(1)]
-//     }
-    
-//     #let sections = ("Actions", "Reactions", "Limited Usage", "Equipment", "Legendary Actions")
-    
-//     #for section in sections {
-//       if section in stats.keys() {
-//         block[
-//           #show par: set block(spacing: 1em)
-//           #text(size: 1.3em, fill: darkred)[#box(width:100%, inset: (bottom: 3pt), stroke: (bottom: 1pt+darkyellow))[#smallcaps(section)]]
-//           #for action in stats.at(section) {
-//             [_*#action.at(0).*_ #action.at(1) \ ]
-//           }
-//        ]
-//      }
-//    }
-//  ]   
-// ]
+  let check_names = (:)
+  let checks = query(<skill_check>)
+  for check in checks {
+    let check_name = str(check.body.children.at(0).text)
+    let param_name = str(check.body.children.at(3).text)
+    let name = check_name + " (" + param_name + ")"
+    if name not in check_names {
+      check_names.insert(name, name)
+    }
+  }
 
-// #let spell(spl) = [
-//   #show par: set block(spacing: .6em)
-//   #heading(outlined: false, level: 3, spl.name)
+  grid(
+    columns: (50%,10%, 40%),
+    [
+        #heading("Сцены \\ Локации", outlined: false, level: 2)
 
-//   _#spl.spell_type _
-//   #v(0.5em)
-//   #for prop in spl.properties {
+        #for chapter in chapters {
+          let loc = chapter.location()
+          let nr = numbering(
+            loc.page-numbering(),
+            ..counter(page).at(loc),
+          )
+          [#chapter.body #h(1fr) #nr \ ]
+        }
+    ],
+    [],
+    [
+      #heading("Проверки", outlined: false, level: 2)
 
-//        [*#prop.at(0):* #prop.at(1) \ ]
-
-       
-//       }
-//   #v(0.5em)
-//   #spl.description
+      #for check in check_names.keys() {
+          [#check #h(1fr) \ ]
+        }
+    ]
+  )
   
-// ]
-
-// #let trademarks = text(size: 0.9em, style: "italic")[
-//   #dnd D&D, Wizards of the Coast, Forgotten Realms, Ravenloft, Eberron, the dragon ampersand, Ravnica and all other Wizards of the Coast product names, and their respective logos are trademarks of Wizards of the Coast in the USA and other countries.
-
-// This work contains material that is copyright Wizards of the Coast and/or other authors. Such material is used with permission under the Community Content Agreement for Dungeon Masters Guild.
-
-// All other original material in this work is copyright 2023 by the author and published under the Community Content Agreement for Dungeon Masters Guild.
-// ]
+}

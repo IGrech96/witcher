@@ -1,6 +1,6 @@
 [package] 
-name = "witcher_bestiary"
+name = "witcher"
 version = "0.1.0"
-entrypoint = "witcher_bestiary.typ"
+entrypoint = "witcher_rpg.typ"
 authors = ["Ivan G"]
 license = "MIT"

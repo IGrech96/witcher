@@ -1,6 +1,6 @@
 #import "@preview/muchpdf:0.1.0": muchpdf
 #import "../../packages/rpg/rpg.typ": *
-#import "../../packages/witcher_bestiary/default_bestiary.typ"
+#import "../../packages/witcher/default_bestiary.typ"
 
 #show: rpgstory.with(
   title: "",
